@@ -16,9 +16,7 @@
 #
 def validate(data)
 
-  sum = data.reduce :+
-
-  if sum == 0
+  if data.reduce(:+) == 0
     raise TriangleError.new "All values are zero"
   end
 
