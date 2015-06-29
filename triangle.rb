@@ -13,10 +13,39 @@
 # and
 #   about_triangle_project_2.rb
 #
+#
+def validate(data)
+
+  sum = data.reduce :+
+
+  if sum == 0
+    raise TriangleError.new "All values are zero"
+  end
+
+  if (data.any? { |i| i < 0 })
+    raise TriangleError.new "No negatives are allowed"
+  end
+
+  if data[0] + data[1] <= data[2]
+    raise TriangleError.new "two sides should always be greater than the third"
+  end
+end
+
+#
 def triangle(a, b, c)
-  return :equilateral if ((a == b) && (a == c))
-  return :scalene if ((a != b) && (b != c) && (a != c))
-  :isosceles
+
+  data = [a, b, c].sort;
+
+  validate data
+
+  # data is now sorted so equilateral is a = c
+  return :equilateral if (data[0] == data[2])
+
+  # if a = b or b = c then two sides match
+  return :isosceles if (data[0] == data[1]) || (data[1] == data[2])
+
+  # no match so scalene
+  :scalene
 end
 
 # Error class used in part 2.  No need to change this code.
